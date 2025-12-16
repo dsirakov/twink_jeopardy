@@ -1,12 +1,19 @@
 from pydantic_settings import BaseSettings
+from functools import lru_cache
 
 
-# TODO: load from .env file or environment variables
 class Settings(BaseSettings):
     DATABASE_URL: str = (
         "postgresql+psycopg2://postgres:postgres@localhost:5432/jeopardy"
     )
     OPENAI_API_KEY: str = ""
 
+    model_config = {"env_file": ".env", "extra": "ignore"}
 
-settings = Settings()
+
+@lru_cache()
+def get_settings() -> Settings:
+    return Settings()
+
+
+settings = get_settings()
