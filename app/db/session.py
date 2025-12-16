@@ -1,22 +1,24 @@
 """Database session management and ORM base configuration."""
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base, Session
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import declarative_base
 from app.config import settings
 
-engine = create_engine(settings.DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine)
+engine = create_async_engine(
+    settings.DATABASE_URL.replace("postgresql+psycopg2://", "postgresql+asyncpg://"),
+    echo=False,
+)
+AsyncSessionLocal = async_sessionmaker(
+    bind=engine, class_=AsyncSession, expire_on_commit=False
+)
 
 Base = declarative_base()
 
 
-def get_db() -> Session:
+async def get_db() -> AsyncSession:
     """
-    Get database session dependency.
-    :return: Database session
+    Get async database session dependency.
+    :return: Async database session
     """
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    async with AsyncSessionLocal() as session:
+        yield session

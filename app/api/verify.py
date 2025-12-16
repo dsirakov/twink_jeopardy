@@ -2,7 +2,8 @@
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from app.db.models import Question
 from app.db.session import get_db
 from app.services.verifier import verify_answer, get_ai_feedback
@@ -16,20 +17,22 @@ class VerifyAnswerRequest(BaseModel):
 
 
 @router.post("/verify-answer")
-def verify(request: VerifyAnswerRequest, db: Session = Depends(get_db)):
+async def verify(request: VerifyAnswerRequest, db: AsyncSession = Depends(get_db)):
     """
     Verify answer and get AI feedback.
     :param request: Request with question_id and user_answer
-    :param db: Database session
+    :param db: Async database session
     :return: Correctness and feedback
     """
-    q = db.query(Question).filter(Question.id == request.question_id).first()
+    query = select(Question).filter(Question.id == request.question_id)
+    result = await db.execute(query)
+    q = result.scalar_one_or_none()
+
     if not q:
         raise HTTPException(status_code=404, detail="Question not found")
 
     is_correct = verify_answer(request.user_answer, q.answer)
 
-    # Get AI feedback
     ai_response = get_ai_feedback(q.question, request.user_answer, q.answer, is_correct)
 
     return {
