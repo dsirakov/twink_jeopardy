@@ -1,3 +1,5 @@
+"""Answer verification with multi-layered matching and AI feedback."""
+
 import difflib
 from app.services.llm_client import get_client
 

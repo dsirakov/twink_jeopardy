@@ -1,3 +1,5 @@
+"""OpenAI client singleton for LLM operations."""
+
 from openai import OpenAI
 from app.config import settings
 

@@ -1,3 +1,5 @@
+"""LLM-based answer verification using GPT-4o-mini as a strict judge."""
+
 from app.services.llm_client import get_client
 
 SYSTEM_PROMPT = """

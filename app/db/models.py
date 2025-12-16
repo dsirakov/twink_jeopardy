@@ -1,3 +1,5 @@
+"""SQLAlchemy ORM models for Jeopardy questions."""
+
 from sqlalchemy import Column, Integer, String, Date
 from app.db.session import Base
 

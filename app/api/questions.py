@@ -1,3 +1,5 @@
+"""Jeopardy question retrieval endpoints."""
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
