@@ -1,6 +1,8 @@
+# Fix versions
 fastapi
 uvicorn
 sqlalchemy
 psycopg2-binary
 pydantic-settings
 pytest
+openai>=1.0.0
