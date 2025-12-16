@@ -63,7 +63,7 @@ This will load Jeopardy questions from `data/JEOPARDY_CSV.csv` into the PostgreS
 
 ## Running the API
 
-### Development Mode
+### Development Mode (Local)
 
 Start the API server with hot-reload enabled:
 
@@ -77,6 +77,88 @@ The API will be available at `http://localhost:8000`
 
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
+
+## Running with Docker
+
+### Prerequisites for Docker
+
+- Docker
+- Docker Compose
+
+### Quick Start
+
+1. **Set your OpenAI API key** (optional if using `.env`):
+
+```bash
+export OPENAI_API_KEY=your-openai-api-key-here
+```
+
+Or add it to your `.env` file:
+
+```bash
+cp .env.example .env
+# Edit .env and add your OPENAI_API_KEY
+```
+
+2. **Start the services**:
+
+```bash
+docker-compose up --build
+```
+
+This will:
+- Build the FastAPI application image
+- Start PostgreSQL database on port 5432
+- Start the API server on http://localhost:8000
+- Enable hot-reload for development
+
+3. **Load the dataset** (in a new terminal):
+
+```bash
+docker-compose exec api python scripts/load_dataset.py
+```
+
+4. **Access the API**:
+
+- API: http://localhost:8000
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+### Useful Docker Commands
+
+```bash
+# Start containers in the background
+docker-compose up -d
+
+# View logs from all services
+docker-compose logs -f
+
+# View logs from specific service
+docker-compose logs -f api
+docker-compose logs -f db
+
+# Stop containers
+docker-compose down
+
+# Remove all data and volumes
+docker-compose down -v
+
+# Access the database shell
+docker-compose exec db psql -U postgres -d jeopardy
+
+# Run a command in the API container
+docker-compose exec api python scripts/load_dataset.py
+
+# Restart services
+docker-compose restart
+```
+
+### Docker Architecture
+
+- **db**: PostgreSQL 15-alpine with persistent volume storage
+- **api**: Python 3.11-slim FastAPI application with live code reloading
+
+Both services communicate via a dedicated Docker network. The API depends on the database health check before starting.
 
 ## API Endpoints
 
