@@ -65,6 +65,12 @@ This will load Jeopardy questions from `data/JEOPARDY_CSV.csv` into the PostgreS
 
 ### Development Mode (Local)
 
+Start the database only.
+
+```
+docker compose up db
+```
+
 Start the API server with hot-reload enabled:
 
 ```bash
@@ -79,11 +85,6 @@ The API will be available at `http://localhost:8000`
 - **ReDoc**: http://localhost:8000/redoc
 
 ## Running with Docker
-
-### Prerequisites for Docker
-
-- Docker
-- Docker Compose
 
 ### Quick Start
 
