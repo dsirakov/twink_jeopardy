@@ -5,18 +5,29 @@ from app.services.llm_client import get_client
 
 
 def normalize(text: str) -> str:
+    """Normalize text for comparison.
+    :param text: Input text
+    :return: Normalized text
+    """
     return "".join(c.lower() for c in text if c.isalnum() or c.isspace())
 
 
 def get_embedding(text: str) -> list:
-    """Get semantic embedding from OpenAI."""
+    """Get semantic embedding from OpenAI.
+    :param text: Input text
+    :return: Embedding vector
+    """
     client = get_client()
     response = client.embeddings.create(model="text-embedding-3-small", input=text)
     return response.data[0].embedding
 
 
 def cosine_similarity(a: list, b: list) -> float:
-    """Calculate cosine similarity between two embeddings."""
+    """Calculate cosine similarity between two embeddings.
+    :param a: First embedding
+    :param b: Second embedding
+    :return: Cosine similarity score
+    """
     import math
 
     dot_product = sum(x * y for x, y in zip(a, b))
@@ -33,6 +44,10 @@ def verify_answer(
     """Verify if user answer matches correct answer.
 
     First tries fuzzy matching, then semantic similarity if enabled.
+    :param user_answer: User provided answer
+    :param correct_answer: Correct answer
+    :param use_semantic: Whether to use semantic matching
+    :return: True if answer is considered correct
     """
     ua = normalize(user_answer)
     ca = normalize(correct_answer)
@@ -63,7 +78,13 @@ def verify_answer(
 def get_ai_feedback(
     question: str, user_answer: str, correct_answer: str, is_correct: bool
 ) -> str:
-    """Get AI-generated feedback on the user's answer."""
+    """Get AI-generated feedback on the user's answer.
+    :param question: The Jeopardy question
+    :param user_answer: User provided answer
+    :param correct_answer: Correct answer
+    :param is_correct: Whether the user's answer was correct
+    :return: AI feedback string
+    """
     client = get_client()
     prompt = f"""The user was asked: "{question}"
 The correct answer is: "{correct_answer}"

@@ -11,6 +11,13 @@ router = APIRouter()
 
 @router.get("/question")
 def get_random_question(round: str, value: int, db: Session = Depends(get_db)):
+    """
+    Get random question by round and value.
+    :param round: Jeopardy round
+    :param value: Question value
+    :param db: Database session
+    :return: Question data
+    """
     q = (
         db.query(Question)
         .filter(Question.round == round, Question.value == value)

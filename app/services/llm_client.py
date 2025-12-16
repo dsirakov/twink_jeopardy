@@ -8,12 +8,8 @@ _client: OpenAI | None = None
 
 def get_client() -> OpenAI:
     """
-    Returns a singleton OpenAI client instance.
-
-    This ensures:
-      - Only one client is created
-      - Easy to mock in tests
-      - Centralized API key usage
+    Get singleton OpenAI client.
+    :return: OpenAI client instance
     """
     global _client
     if _client is None:

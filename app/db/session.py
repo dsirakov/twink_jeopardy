@@ -11,7 +11,10 @@ Base = declarative_base()
 
 
 def get_db() -> Session:
-    """Dependency for getting database session."""
+    """
+    Get database session dependency.
+    :return: Database session
+    """
     db = SessionLocal()
     try:
         yield db

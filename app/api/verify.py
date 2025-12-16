@@ -17,7 +17,12 @@ class VerifyAnswerRequest(BaseModel):
 
 @router.post("/verify-answer")
 def verify(request: VerifyAnswerRequest, db: Session = Depends(get_db)):
-    """Verify user answer and provide AI feedback."""
+    """
+    Verify answer and get AI feedback.
+    :param request: Request with question_id and user_answer
+    :param db: Database session
+    :return: Correctness and feedback
+    """
     q = db.query(Question).filter(Question.id == request.question_id).first()
     if not q:
         raise HTTPException(status_code=404, detail="Question not found")

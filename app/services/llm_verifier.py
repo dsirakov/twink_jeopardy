@@ -14,6 +14,12 @@ Respond ONLY with "YES" or "NO".
 
 
 def verify_with_llm(user_answer: str, correct_answer: str) -> bool:
+    """
+    Verify answer using LLM as judge.
+    :param user_answer: User provided answer
+    :param correct_answer: Correct answer
+    :return: True if answer is correct
+    """
     client = get_client()
 
     response = client.chat.completions.create(
