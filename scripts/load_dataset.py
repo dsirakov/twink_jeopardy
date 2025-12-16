@@ -17,6 +17,7 @@ loaded_count = 0
 skipped_count = 0
 
 logger.info("Loading dataset from data/JEOPARDY_CSV.csv...")
+# TODO: download dataset instead of storing it in repo
 with open("data/JEOPARDY_CSV.csv", newline="", encoding="utf-8") as f:
     reader = csv.DictReader(f)
     for row in reader:
