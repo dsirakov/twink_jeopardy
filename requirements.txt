@@ -1,0 +1,13 @@
+# Fix versions
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+asyncpg
+aiosqlite
+greenlet
+pydantic-settings
+pytest
+pytest-asyncio
+httpx
+openai>=1.0.0
