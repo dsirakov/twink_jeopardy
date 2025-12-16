@@ -79,6 +79,20 @@ uvicorn app.main:app --reload
 
 The API will be available at `http://localhost:8000`
 
+### Running Tests
+
+Run all tests:
+
+```bash
+pytest tests/
+```
+
+Run specific test file:
+
+```bash
+pytest tests/test_questions.py -v
+```
+
 ### Access the Interactive API Documentation
 
 - **Swagger UI**: http://localhost:8000/docs
